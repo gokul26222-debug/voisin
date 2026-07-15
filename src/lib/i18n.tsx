@@ -8,8 +8,8 @@ const translations = {
   fr: {
     greeting: "Bonjour",
     welcome_start: "Commencer",
-    welcome_message: "Des voisins prÃ¨s de vous, quand vous en avez besoin.",
-    welcome_image_alt: "Des voisins qui se retrouvent autour d'un cafÃ©",
+    welcome_message: "Des voisins près de vous, quand vous en avez besoin.",
+    welcome_image_alt: "Des voisins qui se retrouvent autour d'un café",
     sunny: "Ensoleillé, 24°",
     groceries: "Courses",
     pharmacy: "Pharmacie",

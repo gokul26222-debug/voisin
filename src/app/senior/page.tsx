@@ -34,16 +34,18 @@ function WelcomeScreen({ onStart }: { onStart: () => void }) {
   const { t } = useI18n();
 
   return (
-    <section className="relative min-h-dvh overflow-hidden bg-cream md:min-h-0 md:h-full" aria-label="voisin">
-      <Image
-        src="/images/voisin-welcome-illustration.png"
-        alt={t("welcome_image_alt")}
-        fill
-        priority
-        sizes="(min-width: 768px) 448px, 100vw"
-        className="object-cover object-center"
-      />
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-cream via-cream/95 to-transparent px-5 pb-8 pt-28">
+    <section className="flex min-h-dvh flex-col overflow-hidden bg-cream md:min-h-0 md:h-full" aria-label="voisin">
+      <div className="relative min-h-0 flex-1">
+        <Image
+          src="/images/voisin-welcome-illustration.png"
+          alt={t("welcome_image_alt")}
+          fill
+          priority
+          sizes="(min-width: 768px) 448px, 100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      <div className="shrink-0 bg-cream px-5 pt-5 pb-8">
         <p className="mx-auto mb-5 max-w-[300px] text-center text-[21px] font-bold leading-snug text-purple-dark">
           {t("welcome_message")}
         </p>
