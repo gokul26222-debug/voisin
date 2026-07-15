@@ -27,9 +27,11 @@ export default function SeniorPage() {
   return (
     <I18nProvider>
       <AppProvider>
-        <div className="max-w-md mx-auto w-full min-h-dvh">
-          <ScreenRouter />
-        </div>
+        <main className="min-h-dvh bg-cream md:p-8 md:bg-cream-dark md:flex md:items-center md:justify-center">
+          <div className="w-full max-w-md min-h-dvh bg-cream md:min-h-0 md:h-[min(860px,calc(100dvh-4rem))] md:rounded-[32px] md:border md:border-card-border md:shadow-card-lg md:overflow-hidden">
+            <ScreenRouter />
+          </div>
+        </main>
       </AppProvider>
     </I18nProvider>
   );

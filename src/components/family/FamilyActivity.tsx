@@ -59,7 +59,7 @@ export default function FamilyActivity() {
   const { activityFeed, setScreen } = useFamily();
 
   return (
-    <div className="fade-in flex flex-col min-h-dvh bg-cream">
+    <div className="fade-in flex flex-col min-h-dvh bg-cream md:min-h-0 md:h-full">
       <div className="flex-1 px-4 pt-4 pb-6 overflow-y-auto">
         <button
           onClick={() => setScreen("home")}

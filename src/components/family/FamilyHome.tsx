@@ -17,7 +17,6 @@ import {
   Minus,
   Smartphone,
   ClipboardList,
-  Smile,
   HeartHandshake,
   User,
   AlertTriangle,
@@ -69,13 +68,19 @@ export default function FamilyHome() {
 
   const status = statusConfig[seniorStatus];
   const unreadAlerts = alerts.filter((a) => !a.dismissed).length;
+  const safetyMessage =
+    lastActiveMinutes >= 48 * 60
+      ? t("fam_checkin_urgent")
+      : lastActiveMinutes >= 24 * 60
+        ? t("fam_checkin_due")
+        : t("fam_checkin_ok");
 
   const MoodIcon = moodTrend === "improving" ? TrendingUp : moodTrend === "declining" ? TrendingDown : Minus;
   const moodColor = moodTrend === "improving" ? "text-green-fill" : moodTrend === "declining" ? "text-rose-deep" : "text-warm-gray";
   const moodLabel = t(moodTrend === "improving" ? "fam_improving" : moodTrend === "declining" ? "fam_declining" : "fam_stable");
 
   return (
-    <div className="fade-in flex flex-col min-h-dvh bg-cream">
+    <div className="fade-in flex flex-col min-h-dvh bg-cream md:min-h-0 md:h-full">
       <div className="flex-1 px-4 pt-4 pb-6 overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
@@ -125,6 +130,26 @@ export default function FamilyHome() {
 
         {/* Notification opt-in */}
         <NotificationBanner />
+
+        <button
+          onClick={() => setScreen("alerts")}
+          className={`btn-press w-full rounded-2xl border p-3.5 mb-4 text-left shadow-card flex items-center gap-3 ${
+            lastActiveMinutes >= 48 * 60
+              ? "bg-rose-tint border-rose-deep/30"
+              : lastActiveMinutes >= 24 * 60
+                ? "bg-amber-tint border-amber-deep/30"
+                : "bg-mint-tint border-mint-deep/20"
+          }`}
+        >
+          <span className={`w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 ${lastActiveMinutes >= 24 * 60 ? "text-rose-deep" : "text-mint-deep"}`}>
+            {lastActiveMinutes >= 24 * 60 ? <AlertTriangle size={21} strokeWidth={2.4} /> : <ShieldCheck size={21} strokeWidth={2.4} />}
+          </span>
+          <span className="flex-1">
+            <span className="block text-[14px] font-extrabold text-warm-black">{t("fam_safety_check")}</span>
+            <span className="block text-[13px] font-semibold text-warm-gray leading-tight mt-0.5">{safetyMessage}</span>
+          </span>
+          <ChevronRight size={20} className="text-warm-light" />
+        </button>
 
         {/* Senior status card */}
         <div className={`rounded-2xl ${status.bg} border ${status.border} p-4 mb-4 shadow-card slide-up`}>

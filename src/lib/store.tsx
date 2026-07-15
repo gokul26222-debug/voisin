@@ -5,6 +5,7 @@ import { createContext, useContext, useState, useCallback, type ReactNode } from
 export type RequestType = "groceries" | "pharmacy" | "home_help" | "accompany";
 export type Screen = "home" | "picker" | "confirm" | "status" | "done" | "settings" | "history";
 export type TextSize = "normal" | "large";
+export type SafetyStatus = "pending" | "checked_in";
 
 export interface HistoryEntry {
   id: string;
@@ -21,6 +22,8 @@ interface AppState {
   selectedItems: string[];
   seniorName: string;
   textSize: TextSize;
+  safetyStatus: SafetyStatus;
+  emergencyContact: { name: string; phone: string };
   history: HistoryEntry[];
   activeRequest: { type: RequestType; items: string[]; helper: string; eta: string } | null;
 }
@@ -30,6 +33,8 @@ interface AppContextType extends AppState {
   setRequestType: (r: RequestType) => void;
   toggleItem: (item: string) => void;
   setTextSize: (s: TextSize) => void;
+  confirmSafetyCheck: () => void;
+  setEmergencyContact: (name: string, phone: string) => void;
   startRequest: () => void;
   completeRequest: (rating: number | null) => void;
   reset: () => void;
@@ -47,6 +52,8 @@ const initial: Omit<AppState, "history"> = {
   selectedItems: [],
   seniorName: "Marie",
   textSize: "normal",
+  safetyStatus: "pending",
+  emergencyContact: { name: "Sophie", phone: "" },
   activeRequest: null,
 };
 
@@ -74,6 +81,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const setTextSize = useCallback((textSize: TextSize) => {
     setState((s) => ({ ...s, textSize }));
+  }, []);
+
+  const confirmSafetyCheck = useCallback(() => {
+    setState((s) => ({ ...s, safetyStatus: "checked_in" }));
+  }, []);
+
+  const setEmergencyContact = useCallback((name: string, phone: string) => {
+    setState((s) => ({ ...s, emergencyContact: { name: name.trim(), phone: phone.trim() } }));
   }, []);
 
   const startRequest = useCallback(() => {
@@ -107,12 +122,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const reset = useCallback(() => {
-    setState((s) => ({ ...initial, history: s.history, textSize: s.textSize, activeRequest: s.activeRequest }));
+    setState((s) => ({ ...initial, history: s.history, textSize: s.textSize }));
   }, []);
 
   return (
     <AppContext.Provider
-      value={{ ...state, setScreen, setRequestType, toggleItem, setTextSize, startRequest, completeRequest, reset }}
+      value={{ ...state, setScreen, setRequestType, toggleItem, setTextSize, confirmSafetyCheck, setEmergencyContact, startRequest, completeRequest, reset }}
     >
       {children}
     </AppContext.Provider>

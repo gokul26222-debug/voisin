@@ -91,7 +91,7 @@ const initialState: FamilyState = {
   activityFeed: seedActivity,
   alerts: seedAlerts,
   activeRequest: { type: "groceries", helper: "Lucas", eta: "11h15" },
-  silenceThresholdHours: 14,
+  silenceThresholdHours: 24,
   heartSent: false,
   spokenConfirmed: false,
 };
@@ -133,7 +133,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const simulateSilence = useCallback((hours: number) => {
-    const level = hours >= 48 ? "critical" : hours >= 14 ? "warning" : "good";
+    const level = hours >= 48 ? "critical" : hours >= 24 ? "warning" : "good";
     const newAlert: Alert | null =
       level !== "good"
         ? {
@@ -141,8 +141,8 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
             level,
             message:
               level === "critical"
-                ? `Marie n'a pas ouvert l'app depuis ${hours}h !`
-                : `Pas de nouvelles de Marie depuis ${hours}h`,
+                ? `Aucune confirmation de Marie depuis ${hours}h. Appelez son contact d'urgence.`
+                : `Aucune confirmation de Marie depuis ${hours}h. Prévenez Sophie.`,
             time: timeStr(0),
             dismissed: false,
           }

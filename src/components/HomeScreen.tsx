@@ -10,12 +10,17 @@ import {
   ChevronRight,
   BadgeCheck,
   User,
+  AlertTriangle,
+  PhoneCall,
+  X,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useApp, type RequestType } from "@/lib/store";
 import { speak } from "@/lib/speech";
 import BrandHeader from "@/components/ui/BrandHeader";
 import ScreenShell from "@/components/ui/ScreenShell";
+import SafetyCheckCard from "@/components/SafetyCheckCard";
+import { useState } from "react";
 
 const actions = [
   { type: "groceries" as RequestType, labelKey: "groceries" as const, hintKey: "groceries_hint" as const, Icon: ShoppingBag, tint: "bg-amber-tint", deep: "text-amber-deep" },
@@ -34,7 +39,16 @@ function formatDate(locale: "fr" | "en") {
 
 export default function HomeScreen() {
   const { t, locale } = useI18n();
-  const { seniorName, setScreen, setRequestType, activeRequest } = useApp();
+  const {
+    seniorName,
+    setScreen,
+    setRequestType,
+    activeRequest,
+    safetyStatus,
+    confirmSafetyCheck,
+    emergencyContact,
+  } = useApp();
+  const [emergencyOpen, setEmergencyOpen] = useState(false);
 
   const handleAction = (type: RequestType, label: string) => {
     setRequestType(type);
@@ -45,6 +59,13 @@ export default function HomeScreen() {
   const handleCallFamily = () => {
     speak(t("calling_family"), locale);
   };
+
+  const handleSafetyCheck = () => {
+    confirmSafetyCheck();
+    speak(`${t("safety_thanks")} ${seniorName}. ${t("safety_confirmed")}`, locale);
+  };
+
+  const contactPhone = emergencyContact.phone.replace(/[^+\d]/g, "");
 
   return (
     <ScreenShell showHomeButton={false}>
@@ -57,6 +78,13 @@ export default function HomeScreen() {
       <p className="text-warm-gray font-semibold text-[22px] mb-5 capitalize">
         {formatDate(locale)} · {t("sunny")}
       </p>
+
+      <SafetyCheckCard
+        seniorName={seniorName}
+        checkedIn={safetyStatus === "checked_in"}
+        onConfirm={handleSafetyCheck}
+        onListen={() => speak(`${t("safety_title")}. ${t("safety_question")}`, locale)}
+      />
 
       {/* Live status card — trust layer */}
       {activeRequest && (
@@ -123,6 +151,54 @@ export default function HomeScreen() {
         </button>
       </div>
       <p className="text-purple font-bold text-[18px] text-center mt-2">{t("or_speak")}</p>
+
+      <button
+        onClick={() => setEmergencyOpen(true)}
+        className="btn-press w-full mt-5 min-h-[62px] rounded-2xl border-2 border-coral bg-coral-tint text-coral-dark text-[21px] font-extrabold flex items-center justify-center gap-2.5"
+      >
+        <AlertTriangle size={25} strokeWidth={2.4} />
+        {t("emergency")}
+      </button>
+
+      {emergencyOpen && (
+        <div className="fixed inset-0 z-50 bg-warm-black/45 flex items-end sm:items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="emergency-title">
+          <div className="w-full max-w-md bg-cream rounded-3xl p-5 shadow-card-lg slide-up">
+            <div className="flex items-start gap-3 mb-4">
+              <span className="w-12 h-12 rounded-full bg-rose-tint flex items-center justify-center shrink-0">
+                <AlertTriangle size={27} className="text-rose-deep" strokeWidth={2.5} />
+              </span>
+              <div className="flex-1">
+                <h2 id="emergency-title" className="text-[23px] leading-tight font-extrabold text-rose-text">{t("emergency_title")}</h2>
+                <p className="text-[15px] text-warm-gray font-semibold mt-1">{t("emergency_contact")}</p>
+              </div>
+              <button onClick={() => setEmergencyOpen(false)} aria-label={t("cancel")} className="w-10 h-10 rounded-full bg-cream-dark flex items-center justify-center text-warm-gray">
+                <X size={23} strokeWidth={2.5} />
+              </button>
+            </div>
+
+            {contactPhone ? (
+              <a
+                href={`tel:${contactPhone}`}
+                className="btn-press w-full min-h-[68px] rounded-2xl bg-purple text-white text-[20px] font-extrabold flex items-center justify-center gap-2.5 mb-3"
+              >
+                <PhoneCall size={25} strokeWidth={2.4} />
+                {t("call_contact")} · {emergencyContact.name || t("emergency_contact")}
+              </a>
+            ) : (
+              <p className="bg-amber-tint text-amber-text rounded-xl p-3 text-[15px] font-bold mb-3">{t("emergency_setup")}</p>
+            )}
+
+            <a
+              href="tel:112"
+              className="btn-press w-full min-h-[68px] rounded-2xl bg-coral text-white text-[20px] font-extrabold flex items-center justify-center gap-2.5"
+            >
+              <PhoneCall size={25} strokeWidth={2.4} />
+              {t("call_112")}
+            </a>
+            <button onClick={() => setEmergencyOpen(false)} className="w-full py-4 text-[18px] font-bold text-warm-gray">{t("cancel")}</button>
+          </div>
+        </div>
+      )}
     </ScreenShell>
   );
 }

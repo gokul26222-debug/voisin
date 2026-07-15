@@ -9,7 +9,7 @@ import {
   Clock,
   RotateCcw,
 } from "lucide-react";
-import { useI18n, type TranslationKey } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n";
 import { useFamily, type Alert } from "@/lib/family-store";
 
 const levelConfig: Record<Alert["level"], { Icon: typeof Info; bg: string; border: string; text: string; dot: string }> = {
@@ -25,7 +25,7 @@ export default function FamilyAlerts() {
   const visibleAlerts = alerts.filter((a) => !a.dismissed);
 
   return (
-    <div className="fade-in flex flex-col min-h-dvh bg-cream">
+    <div className="fade-in flex flex-col min-h-dvh bg-cream md:min-h-0 md:h-full">
       <div className="flex-1 px-4 pt-4 pb-6 overflow-y-auto">
         <button
           onClick={() => setScreen("home")}
@@ -95,22 +95,16 @@ export default function FamilyAlerts() {
           </p>
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => simulateSilence(14)}
-              className="btn-press px-3 py-2 rounded-xl bg-amber-tint border border-amber-deep/30 text-amber-deep text-[13px] font-bold"
-            >
-              14h ⚠️
-            </button>
-            <button
               onClick={() => simulateSilence(24)}
               className="btn-press px-3 py-2 rounded-xl bg-amber-tint border border-amber-deep/30 text-amber-deep text-[13px] font-bold"
             >
-              24h ⚠️
+              24h · Prévenir Sophie
             </button>
             <button
               onClick={() => simulateSilence(48)}
               className="btn-press px-3 py-2 rounded-xl bg-rose-tint border border-rose-deep/30 text-rose-deep text-[13px] font-bold"
             >
-              48h 🚨
+              48h · Appeler Sophie
             </button>
             <button
               onClick={resetDemo}

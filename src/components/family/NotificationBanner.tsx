@@ -1,26 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Bell, BellRing, Check } from "lucide-react";
+import { Bell, BellRing } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { requestNotificationPermission, onForegroundMessage } from "@/lib/firebase";
 
 type Status = "idle" | "granted" | "denied" | "unsupported";
 
+function getInitialStatus(): Status {
+  if (typeof window === "undefined" || !("Notification" in window)) {
+    return "unsupported";
+  }
+  return Notification.permission === "granted"
+    ? "granted"
+    : Notification.permission === "denied"
+      ? "denied"
+      : "idle";
+}
+
 export default function NotificationBanner() {
   const { locale } = useI18n();
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<Status>(getInitialStatus);
   const [toast, setToast] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !("Notification" in window)) {
-      setStatus("unsupported");
-      return;
-    }
-    if (Notification.permission === "granted") {
-      setStatus("granted");
-    }
-  }, []);
 
   useEffect(() => {
     if (status !== "granted") return;

@@ -16,7 +16,7 @@ export default function FamilySettings() {
   const { t, locale, setLocale } = useI18n();
   const { silenceThresholdHours, setSilenceThreshold, setScreen } = useFamily();
 
-  const thresholdOptions = [8, 14, 24];
+  const thresholdOptions = [24, 48];
 
   const segBtn = (active: boolean) =>
     `btn-press flex-1 py-2.5 rounded-xl text-[14px] font-bold border-2 transition-colors ${
@@ -26,7 +26,7 @@ export default function FamilySettings() {
     }`;
 
   return (
-    <div className="fade-in flex flex-col min-h-dvh bg-cream">
+    <div className="fade-in flex flex-col min-h-dvh bg-cream md:min-h-0 md:h-full">
       <div className="flex-1 px-4 pt-4 pb-6 overflow-y-auto">
         <button
           onClick={() => setScreen("home")}

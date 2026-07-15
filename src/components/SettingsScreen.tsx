@@ -9,8 +9,10 @@ import ScreenShell from "@/components/ui/ScreenShell";
 
 export default function SettingsScreen() {
   const { t, locale, setLocale } = useI18n();
-  const { textSize, setTextSize, setScreen } = useApp();
+  const { textSize, setTextSize, setScreen, emergencyContact, setEmergencyContact } = useApp();
   const [rate, setRate] = useState(getVoiceRate());
+  const [contactName, setContactName] = useState(emergencyContact.name);
+  const [contactPhone, setContactPhone] = useState(emergencyContact.phone);
 
   const handleRate = (newRate: number, label: string) => {
     setRate(newRate);
@@ -61,6 +63,37 @@ export default function SettingsScreen() {
             {t("large")}
           </button>
         </div>
+      </div>
+
+      {/* Trusted emergency contact — configured by family or support */}
+      <div className="bg-rose-tint rounded-2xl border border-rose-deep/20 shadow-card p-5 mb-4">
+        <div className="flex items-center gap-3 mb-3">
+          <span className="w-11 h-11 rounded-xl bg-white flex items-center justify-center text-rose-deep text-[24px] font-extrabold">!</span>
+          <span className="text-[22px] font-bold text-rose-text">{t("emergency_contact")}</span>
+        </div>
+        <p className="text-[15px] text-warm-gray font-semibold mb-3">{locale === "fr" ? "À remplir avec votre famille ou l'aide Voisin." : "Set this up with your family or Voisin support."}</p>
+        <label className="block text-[16px] font-bold text-warm-black mb-1.5" htmlFor="emergency-name">{t("emergency_name")}</label>
+        <input
+          id="emergency-name"
+          value={contactName}
+          onChange={(event) => setContactName(event.target.value)}
+          className="w-full min-h-[52px] rounded-xl bg-white border-2 border-rose-deep/20 px-3 text-[19px] font-semibold text-warm-black mb-3"
+        />
+        <label className="block text-[16px] font-bold text-warm-black mb-1.5" htmlFor="emergency-phone">{t("emergency_phone")}</label>
+        <input
+          id="emergency-phone"
+          type="tel"
+          inputMode="tel"
+          value={contactPhone}
+          onChange={(event) => setContactPhone(event.target.value)}
+          className="w-full min-h-[52px] rounded-xl bg-white border-2 border-rose-deep/20 px-3 text-[19px] font-semibold text-warm-black mb-3"
+        />
+        <button
+          onClick={() => { setEmergencyContact(contactName, contactPhone); speak(t("save"), locale); }}
+          className="btn-press w-full min-h-[56px] rounded-xl bg-rose-deep text-white text-[19px] font-extrabold"
+        >
+          {t("save")}
+        </button>
       </div>
 
       {/* Voice speed */}

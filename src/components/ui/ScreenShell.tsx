@@ -18,7 +18,7 @@ export default function ScreenShell({
 
   return (
     <div
-      className="fade-in flex flex-col min-h-dvh bg-cream"
+      className="fade-in flex flex-col min-h-dvh bg-cream md:min-h-0 md:h-full"
       style={textSize === "large" ? ({ zoom: 1.15 } as React.CSSProperties) : undefined}
     >
       <div className="flex-1 px-5 pt-5 pb-4 overflow-y-auto">{children}</div>
