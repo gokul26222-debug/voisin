@@ -1,12 +1,12 @@
 "use client";
 
-import { HeartHandshake } from "lucide-react";
+import { HeartHandshake, Settings } from "lucide-react";
 import { useApp } from "@/lib/store";
 import { useI18n } from "@/lib/i18n";
 import { speak } from "@/lib/speech";
 
 export default function BrandHeader() {
-  const { seniorName, setScreen } = useApp();
+  const { setScreen } = useApp();
   const { t, locale } = useI18n();
 
   return (
@@ -22,9 +22,10 @@ export default function BrandHeader() {
       <button
         onClick={() => { speak(t("settings"), locale); setScreen("settings"); }}
         aria-label={t("settings")}
-        className="btn-press w-12 h-12 rounded-full bg-purple-tint border-2 border-purple-light flex items-center justify-center text-[20px] font-bold text-purple"
+        className="btn-press min-h-12 rounded-xl bg-purple-tint border-2 border-purple-light px-3 flex items-center justify-center gap-2 text-[17px] font-extrabold text-purple"
       >
-        {seniorName.charAt(0)}
+        <Settings size={22} strokeWidth={2.5} aria-hidden="true" />
+        <span>{t("settings")}</span>
       </button>
     </div>
   );
