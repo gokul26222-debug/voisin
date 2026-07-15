@@ -33,27 +33,27 @@ export default function SafetyCheckCard({
   }
 
   return (
-    <section className="bg-mint-tint border-2 border-mint-deep/25 rounded-2xl p-4 mb-5 shadow-card" aria-labelledby="safety-check-title">
-      <div className="flex items-start gap-3 mb-4">
-        <span className="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0">
-          <CheckCircle2 size={29} className="text-mint-deep" strokeWidth={2.5} />
+    <section className="bg-mint-tint border-2 border-mint-deep/25 rounded-3xl p-5 mb-5 shadow-card-lg" aria-labelledby="safety-check-title">
+      <div className="flex items-start gap-3 mb-5">
+        <span className="w-14 h-14 rounded-full bg-white flex items-center justify-center shrink-0">
+          <CheckCircle2 size={32} className="text-mint-deep" strokeWidth={2.5} />
         </span>
         <div className="flex-1">
-          <p id="safety-check-title" className="text-[18px] font-extrabold text-mint-text">{t("safety_title")}</p>
-          <p className="text-[21px] font-extrabold text-warm-black leading-tight">{t("safety_question")}</p>
+          <p id="safety-check-title" className="text-[27px] font-extrabold text-warm-black leading-tight">{t("safety_question")}</p>
+          <p className="text-[16px] text-mint-text font-bold leading-snug mt-1">{t("safety_reassurance")}</p>
         </div>
       </div>
       <div className="flex gap-3">
         <button
           onClick={onConfirm}
-          className="btn-press flex-1 rounded-xl bg-green-fill text-white min-h-[62px] px-3 text-[20px] font-extrabold"
+          className="btn-press flex-1 rounded-2xl bg-purple text-white min-h-[68px] px-3 text-[22px] font-extrabold"
         >
           {t("safety_confirm")}
         </button>
         <button
           onClick={onListen}
           aria-label={t("listen")}
-          className="btn-press w-[62px] min-h-[62px] rounded-xl bg-white border-2 border-mint-deep/25 flex items-center justify-center text-mint-deep"
+          className="btn-press w-[68px] min-h-[68px] rounded-2xl bg-white border-2 border-mint-deep/25 flex items-center justify-center text-mint-deep"
         >
           <Volume2 size={27} strokeWidth={2.4} />
         </button>
