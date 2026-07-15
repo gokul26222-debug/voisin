@@ -20,7 +20,7 @@ const levelConfig: Record<Alert["level"], { Icon: typeof Info; bg: string; borde
 
 export default function FamilyAlerts() {
   const { t, locale } = useI18n();
-  const { alerts, setScreen, dismissAlert, simulateSilence, resetDemo } = useFamily();
+  const { alerts, setScreen, dismissAlert, simulateSilence, simulateCommunityNoShow, resetDemo } = useFamily();
 
   const visibleAlerts = alerts.filter((a) => !a.dismissed);
 
@@ -105,6 +105,12 @@ export default function FamilyAlerts() {
               className="btn-press px-3 py-2 rounded-xl bg-rose-tint border border-rose-deep/30 text-rose-deep text-[13px] font-bold"
             >
               48h · Appeler Sophie
+            </button>
+            <button
+              onClick={simulateCommunityNoShow}
+              className="btn-press px-3 py-2 rounded-xl bg-sky-tint border border-sky-deep/25 text-sky-deep text-[13px] font-bold"
+            >
+              Rencontre · Pas d&apos;arrivée
             </button>
             <button
               onClick={resetDemo}

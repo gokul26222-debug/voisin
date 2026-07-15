@@ -13,6 +13,7 @@ import {
   AlertTriangle,
   PhoneCall,
   X,
+  UsersRound,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useApp, type RequestType } from "@/lib/store";
@@ -132,6 +133,20 @@ export default function HomeScreen() {
           </button>
         ))}
       </div>
+
+      <button
+        onClick={() => { speak(t("community"), locale); setScreen("community"); }}
+        className="btn-press w-full bg-sky-tint border-2 border-sky-deep/15 rounded-2xl p-4 mb-4 shadow-card flex items-center gap-3 text-left"
+      >
+        <span className="w-14 h-14 rounded-xl bg-white flex items-center justify-center shrink-0">
+          <UsersRound size={29} className="text-sky-deep" strokeWidth={2.2} />
+        </span>
+        <span className="flex-1">
+          <span className="block text-[22px] font-extrabold text-sky-text leading-tight">{t("community")}</span>
+          <span className="block text-[15px] text-warm-gray font-semibold mt-0.5">{t("community_hint")}</span>
+        </span>
+        <ChevronRight size={28} className="text-sky-deep" />
+      </button>
 
       {/* Family + Mic row */}
       <div className="flex items-center gap-3 mt-1">

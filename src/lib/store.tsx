@@ -3,9 +3,10 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
 export type RequestType = "groceries" | "pharmacy" | "home_help" | "accompany";
-export type Screen = "home" | "picker" | "confirm" | "status" | "done" | "settings" | "history";
+export type Screen = "home" | "picker" | "confirm" | "status" | "done" | "settings" | "history" | "community";
 export type TextSize = "normal" | "large";
 export type SafetyStatus = "pending" | "checked_in";
+export type CommunityStatus = "not_joined" | "joined" | "checked_in";
 
 export interface HistoryEntry {
   id: string;
@@ -24,6 +25,8 @@ interface AppState {
   textSize: TextSize;
   safetyStatus: SafetyStatus;
   emergencyContact: { name: string; phone: string };
+  communityStatus: CommunityStatus;
+  communityEventId: string | null;
   history: HistoryEntry[];
   activeRequest: { type: RequestType; items: string[]; helper: string; eta: string } | null;
 }
@@ -35,6 +38,8 @@ interface AppContextType extends AppState {
   setTextSize: (s: TextSize) => void;
   confirmSafetyCheck: () => void;
   setEmergencyContact: (name: string, phone: string) => void;
+  joinCommunityEvent: (eventId: string) => void;
+  confirmCommunityAttendance: () => void;
   startRequest: () => void;
   completeRequest: (rating: number | null) => void;
   reset: () => void;
@@ -54,6 +59,8 @@ const initial: Omit<AppState, "history"> = {
   textSize: "normal",
   safetyStatus: "pending",
   emergencyContact: { name: "Sophie", phone: "" },
+  communityStatus: "not_joined",
+  communityEventId: null,
   activeRequest: null,
 };
 
@@ -89,6 +96,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const setEmergencyContact = useCallback((name: string, phone: string) => {
     setState((s) => ({ ...s, emergencyContact: { name: name.trim(), phone: phone.trim() } }));
+  }, []);
+
+  const joinCommunityEvent = useCallback((communityEventId: string) => {
+    setState((s) => ({ ...s, communityStatus: "joined", communityEventId }));
+  }, []);
+
+  const confirmCommunityAttendance = useCallback(() => {
+    setState((s) => ({ ...s, communityStatus: "checked_in" }));
   }, []);
 
   const startRequest = useCallback(() => {
@@ -127,7 +142,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   return (
     <AppContext.Provider
-      value={{ ...state, setScreen, setRequestType, toggleItem, setTextSize, confirmSafetyCheck, setEmergencyContact, startRequest, completeRequest, reset }}
+      value={{ ...state, setScreen, setRequestType, toggleItem, setTextSize, confirmSafetyCheck, setEmergencyContact, joinCommunityEvent, confirmCommunityAttendance, startRequest, completeRequest, reset }}
     >
       {children}
     </AppContext.Provider>

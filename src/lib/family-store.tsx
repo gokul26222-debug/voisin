@@ -48,6 +48,7 @@ interface FamilyContextType extends FamilyState {
   dismissAlert: (id: string) => void;
   setSilenceThreshold: (h: number) => void;
   simulateSilence: (hours: number) => void;
+  simulateCommunityNoShow: () => void;
   resetDemo: () => void;
 }
 
@@ -156,6 +157,21 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const simulateCommunityNoShow = useCallback(() => {
+    const newAlert: Alert = {
+      id: `al-community-${Date.now()}`,
+      level: "warning",
+      message: "Marie n'a pas confirmé son arrivée au Café du quartier. Appelez-la pour vérifier que tout va bien.",
+      time: timeStr(0),
+      dismissed: false,
+    };
+    setState((s) => ({
+      ...s,
+      seniorStatus: "warning",
+      alerts: [newAlert, ...s.alerts],
+    }));
+  }, []);
+
   const resetDemo = useCallback(() => {
     setState(initialState);
   }, []);
@@ -170,6 +186,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
         dismissAlert,
         setSilenceThreshold,
         simulateSilence,
+        simulateCommunityNoShow,
         resetDemo,
       }}
     >
