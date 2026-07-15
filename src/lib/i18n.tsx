@@ -7,6 +7,9 @@ export type Locale = "fr" | "en";
 const translations = {
   fr: {
     greeting: "Bonjour",
+    welcome_start: "Commencer",
+    welcome_message: "Des voisins prÃ¨s de vous, quand vous en avez besoin.",
+    welcome_image_alt: "Des voisins qui se retrouvent autour d'un cafÃ©",
     sunny: "Ensoleillé, 24°",
     groceries: "Courses",
     pharmacy: "Pharmacie",
@@ -178,6 +181,9 @@ const translations = {
   },
   en: {
     greeting: "Hello",
+    welcome_start: "Start",
+    welcome_message: "Neighbours close by, whenever you need them.",
+    welcome_image_alt: "Neighbours meeting around a coffee",
     sunny: "Sunny, 24°",
     groceries: "Groceries",
     pharmacy: "Pharmacy",
