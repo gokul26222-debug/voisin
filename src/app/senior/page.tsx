@@ -13,6 +13,7 @@ import DoneScreen from "@/components/DoneScreen";
 import SettingsScreen from "@/components/SettingsScreen";
 import HistoryScreen from "@/components/HistoryScreen";
 import CommunityScreen from "@/components/CommunityScreen";
+import ShareScreen from "@/components/ShareScreen";
 
 function ScreenRouter() {
   const { screen } = useApp();
@@ -25,6 +26,7 @@ function ScreenRouter() {
     case "settings": return <SettingsScreen />;
     case "history": return <HistoryScreen />;
     case "community": return <CommunityScreen />;
+    case "share": return <ShareScreen />;
   }
 }
 

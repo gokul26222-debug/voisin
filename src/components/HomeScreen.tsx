@@ -14,6 +14,7 @@ import {
   PhoneCall,
   X,
   UsersRound,
+  HandHeart,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useApp, type RequestType } from "@/lib/store";
@@ -133,6 +134,20 @@ export default function HomeScreen() {
           </button>
         ))}
       </div>
+
+      <button
+        onClick={() => { speak(t("share"), locale); setScreen("share"); }}
+        className="btn-press w-full bg-purple rounded-2xl p-4 mb-4 shadow-card flex items-center gap-3 text-left"
+      >
+        <span className="w-14 h-14 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+          <HandHeart size={30} className="text-white" strokeWidth={2.2} />
+        </span>
+        <span className="flex-1">
+          <span className="block text-[22px] font-extrabold text-white leading-tight">{t("share")}</span>
+          <span className="block text-[15px] text-white/85 font-semibold mt-0.5">{t("share_hint")}</span>
+        </span>
+        <ChevronRight size={28} className="text-white" />
+      </button>
 
       <button
         onClick={() => { speak(t("community"), locale); setScreen("community"); }}

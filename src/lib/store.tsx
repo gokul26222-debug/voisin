@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
 export type RequestType = "groceries" | "pharmacy" | "home_help" | "accompany";
-export type Screen = "home" | "picker" | "confirm" | "status" | "done" | "settings" | "history" | "community";
+export type Screen = "home" | "picker" | "confirm" | "status" | "done" | "settings" | "history" | "community" | "share";
 export type TextSize = "normal" | "large";
 export type SafetyStatus = "pending" | "checked_in";
 export type CommunityStatus = "not_joined" | "joined" | "checked_in";
